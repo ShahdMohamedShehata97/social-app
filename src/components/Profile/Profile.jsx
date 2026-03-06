@@ -1,6 +1,7 @@
 import { useContext } from "react"
 import { authContext } from "../../context/AuthContext"
 import ProfileCard from "../ProfileCard/ProfileCard"
+import Loader from "../loader/Loader"
 // import ProfileCard
 
 export default function Profile() {
@@ -8,7 +9,7 @@ export default function Profile() {
 const {userData}=useContext(authContext)
 
 if(!userData){
-  return <div>Loading...</div>
+  return <Loader/>
 }
 
 return (
