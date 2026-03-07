@@ -46,7 +46,7 @@ import {
 } from "@heroui/react";
 import { AiOutlineHome } from "react-icons/ai";
 import route from '../../assets/images/route.webp'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { FiUser } from "react-icons/fi";
 import { FiMessageCircle } from "react-icons/fi";
 import { IoSettingsOutline } from "react-icons/io5";
@@ -54,29 +54,19 @@ import { IoIosMenu } from "react-icons/io";
 import { authContext } from "../../context/AuthContext";
 import { useContext ,useState} from "react";
 
-// export const AcmeLogo = () => {
-//   return (
-//     <svg fill="none" height="36" viewBox="0 0 32 32" width="36">
-//       <path
-//         clipRule="evenodd"
-//         d="M17.6482 10.1305L15.8785 7.02583L7.02979 22.5499H10.5278L17.6482 10.1305ZM19.8798 14.0457L18.11 17.1983L19.394 19.4511H16.8453L15.1056 22.5499H24.7272L19.8798 14.0457Z"
-//         fill="currentColor"
-//         fillRule="evenodd"
-//       />
-//     </svg>
-//   );
-// };
+
 
 export default function MyNavbar() {
 
 
-// const userInfo = JSON.parse(localStorage.getItem('user'))
 
-//   // console.log('userInfo',userInfo)
-const [active, setActive] = useState("feed");
+
+const location =useLocation()
+
 
 const {clearUserToken,userData}=useContext(authContext)
 const navigate=useNavigate()
+
 
 function handleLogout(){
   localStorage.removeItem('tkn')
@@ -105,9 +95,14 @@ function handleProfile() {
 
       <NavbarContent className="flex gap-5 bg-[#f4f2f4] h-fit py-2.5 px-3 rounded-2xl" justify="center">
         <NavbarItem>
-          <Link 
-          onClick={()=>setActive('feed')}
-           color="foreground" to="/home" className={`gap-1 flex items-center ${active ==='feed' ? 'text-[#1f6fe5]':'text-gray-500   hover:text-black duration-200 focus:text-[#1f6fe5]'}`}>
+          <Link
+to="/home"
+className={`gap-1 flex items-center ${
+location.pathname === "/home"
+? "text-[#1f6fe5]"
+: "text-gray-500 hover:text-black duration-200"
+}`}
+>
           <AiOutlineHome size={20} />
             <p className='text-[14px] font-extrabold hidden md:block ' >Feed</p>
           </Link>
@@ -116,19 +111,27 @@ function handleProfile() {
 
         </NavbarItem>
         <NavbarItem>
-
-          <Link 
-          onClick={()=>setActive('profile')}
-          
-          color="foreground" to='/profile'  className={`gap-1 flex items-center ${active ==='profile' ? 'text-[#1f6fe5]':'text-gray-500   hover:text-black duration-200 focus:text-[#1f6fe5]'}`}>
+<Link
+to="/profile"
+className={`gap-1 flex items-center ${
+location.pathname === "/profile"
+? "text-[#1f6fe5]"
+: "text-gray-500 hover:text-black duration-200"
+}`}
+>
            <FiUser size={18} />
             <p className='text-[14px] font-extrabold hidden md:block'>Profile</p>
           </Link>
         </NavbarItem>
         <NavbarItem>
           <Link
-          onClick={()=>setActive('noti')}
-          color="foreground" to={'/notification'} className={`gap-1 flex items-center ${active ==='noti' ? 'text-[#1f6fe5]':'text-gray-500   hover:text-black duration-200 focus:text-[#1f6fe5]'}`}>
+to="/notification"
+className={`gap-1 flex items-center ${
+location.pathname === "/notification"
+? "text-[#1f6fe5]"
+: "text-gray-500 hover:text-black duration-200"
+}`}
+>
         <FiMessageCircle size={18} />
           <p className='text-[14px] font-extrabold hidden md:block'>  Notification</p>
           </Link>

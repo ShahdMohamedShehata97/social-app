@@ -3,16 +3,22 @@ import { GoCheck } from "react-icons/go";
 import { FaRegComment } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { BiRepost } from "react-icons/bi";
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import axios from 'axios';
+import { QueryClient } from './../../../node_modules/@tanstack/query-core/src/queryClient';
 
-export default function NotificationCard({notification}) {
+export default function NotificationCard({notification,queryKey}) {
     const {isRead,actor,_id,type}=notification
     const {name,photo}=actor
       
 
+
+
     const [markRead, setmarkRead] = useState(false)
+
+
+    const queryClient=useQueryClient()
 
         function markNotificationAsRead() {
     return axios.patch(`https://route-posts.routemisr.com/notifications/${_id}/read`, {
@@ -25,6 +31,8 @@ export default function NotificationCard({notification}) {
   const {mutate}=useMutation({
     mutationFn:markNotificationAsRead,
     onSuccess:()=>{
+
+        queryClient.invalidateQueries({queryKey:queryKey})
 
     }
   })

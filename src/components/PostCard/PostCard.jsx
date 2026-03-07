@@ -37,6 +37,8 @@ export default function PostCard({postInfo,queryKey}) {
 
   const {userId}=useContext(authContext)
   const [openShare, setOpenShare] = useState(false);
+  
+const isLiked = postInfo.likes?.includes(userId)
 
 
 
@@ -82,12 +84,32 @@ export default function PostCard({postInfo,queryKey}) {
   })
 
 
+
+  function hadleLikeUnlike(){
+
+    
+      return axios.put(`https://route-posts.routemisr.com/posts/${id}/like`,{},{   headers:{
+      "Authorization": `Bearer ${localStorage.getItem('tkn')}`,
+    }})
+
+  }
+
+   const{mutate:likeUnlike,data:likeUnlikeData}=useMutation({
+   mutationFn:hadleLikeUnlike,
+   onSuccess:()=>{
+  
+   
+    queryclient.invalidateQueries({queryKey:queryKey})
+   }
+  })
+
+
+
  
 
-  console.log(error)
+  // console.log('like',likeUnlikeData.data.data.liked)
 
-  console.log('shared datad',data?.data)
-
+  const likedPost=likeUnlikeData?.data?.data?.liked
 
 
 
@@ -309,8 +331,22 @@ export default function PostCard({postInfo,queryKey}) {
 
 
       <CardFooter>
-        <div className="flex justify-around w-full py-1">
-            <button className="flex gap-2 items-center text-[#45556c]">
+        <div className="flex justify-around w-full py-1"  onClick={()=>{
+                  likeUnlike()
+               
+                }}>
+            {/* <button
+                onClick={likeUnlike}
+               className="flex gap-2 items-center text-[#45556c] hover:bg-blue-300 w-fit">
+                 <AiOutlineLike size={18} />
+                 <p className="text-[14px] font-semibold">Like</p>
+
+            </button> */}
+
+              <button
+               
+               className={isLiked || likedPost ?"flex gap-2 items-center text-[#1877f2] cursor-pointer px-7 py-2 rounded-[10px]  bg-[#E7F3FF] " : "flex gap-2 items-center text-[#45556c] cursor-pointer px-7 py-2 rounded-[10px] hover:bg-[#F1F5F9] "}
+>
                  <AiOutlineLike size={18} />
                  <p className="text-[14px] font-semibold">Like</p>
 

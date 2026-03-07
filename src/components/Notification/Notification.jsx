@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import Loader from '../loader/Loader';
 import axios from 'axios';
 import NotificationCard from '../NotificationCard/NotificationCard';
+import { useQueryClient,useMutation } from '@tanstack/react-query';
 
 export default function Notification() {
 
@@ -32,9 +33,38 @@ export default function Notification() {
   }
 
   const { data:unreadCount } = useQuery({
-    queryKey: ["notifications"],
+    queryKey: ["Unnotifications"],
     queryFn: getUnReadNotificationsCount,
   });
+
+
+
+      const queryClient=useQueryClient()
+
+function markAllNotificationAsRead() {
+  return axios.patch(
+    "https://route-posts.routemisr.com/notifications/read-all",
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("tkn")}`,
+      },
+    }
+  );
+}
+
+  const {mutate}=useMutation({
+    mutationFn:markAllNotificationAsRead,
+    onSuccess:()=>{
+
+        // queryClient.invalidateQueries({queryKey:["Unnotifications"]})
+
+    }
+  })
+
+
+
+
 
   if (isLoading) {
     return <Loader />;
@@ -52,7 +82,8 @@ export default function Notification() {
   const allNotifications=data.data.data.notifications
 
   console.log('allNotification',allNotifications)
-   const unReadNotifi=unreadCount.data.data.notifications
+   const unReadNotifi=unreadCount?.data?.data?.notifications ||[]
+   console.log('unread',unReadNotifi)
 
 
   return (
@@ -66,7 +97,10 @@ export default function Notification() {
           <h2 className="text-xl font-bold">Notifications</h2>
           <p className="text-sm text-gray-500">Realtime updates for likes, comments, shares, and follows.</p>
         </div>
-        <button className="px-3 py-1 border rounded-lg text-sm hover:bg-gray-100">
+        <button
+        onClick={mutate}
+        
+         className="px-3 py-1 border rounded-lg text-sm hover:bg-gray-100">
           Mark all as read
         </button>
       </div>
@@ -83,7 +117,7 @@ export default function Notification() {
       {/* Notifications list */}
       <div className="flex flex-col gap-2">
         
-        {allNotifications.map((notifi)=>{return <NotificationCard notification={notifi}/>})}
+        {allNotifications.map((notifi)=>{return <NotificationCard notification={notifi} queryKey={["Unnotifications"]}/>})}
 
       
 
