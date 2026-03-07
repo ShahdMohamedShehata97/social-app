@@ -54,8 +54,8 @@ export default function NotificationCard({notification}) {
                 mutate
                 setmarkRead(true)
             }} 
-             className={markRead ? "px-2 py-1 text-[12px] font-bold text-[#096] bg-white rounded  flex items-center gap-1" : "px-2 py-1 text-[12px] font-bold text-[#1877f2] bg-white rounded hover:bg-[#E7F3FF] flex items-center gap-1"}>
-              <GoCheck  /> {markRead ? 'Read' : 'Mark as read'}
+             className={markRead || isRead ? "px-2 py-1 text-[12px] font-bold text-[#096] bg-white rounded  flex items-center gap-1" : "px-2 py-1 text-[12px] font-bold text-[#1877f2] bg-white rounded hover:bg-[#E7F3FF] flex items-center gap-1"}>
+              <GoCheck  /> {markRead || isRead ? 'Read' : 'Mark as read'}
             </button>
             {/* <span className="text-xs text-gray-500">29m</span> */}
           </div>

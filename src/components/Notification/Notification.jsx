@@ -50,7 +50,8 @@ export default function Notification() {
  
   
   const allNotifications=data.data.data.notifications
-//   console.log('unreadCount',unreadCount)
+
+  console.log('allNotification',allNotifications)
    const unReadNotifi=unreadCount.data.data.notifications
 
 
