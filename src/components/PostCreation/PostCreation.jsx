@@ -8,6 +8,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { authContext } from '../../context/AuthContext';
+// import { token } from './../../../node_modules/@types/stylis/index.d';
+import { Link } from 'react-router-dom';
 
 export default function PostCreation({queryKey}) {
    const{userData}=useContext(authContext)
@@ -127,7 +129,7 @@ export default function PostCreation({queryKey}) {
   <>
     <div className="w-full bg-white rounded-xl border border-gray-300 shadow-sm font-sans p-4">
       
-      <div className="flex items-center gap-3 mb-4">
+      <Link to={'/profile'} className="flex items-center gap-3 mb-4">
         <img
           src={userData.photo} 
           alt="User avatar"
@@ -143,7 +145,7 @@ export default function PostCreation({queryKey}) {
             <IoIosArrowDown size={14} />
           </button>
         </div>
-      </div>
+      </Link>
 
       
       <div className="mb-3 bg-[#F8FAFC] p-2.5 rounded-2xl border border-[#e4e5e6]">
@@ -175,28 +177,30 @@ export default function PostCreation({queryKey}) {
       <hr className="mb-3 border-gray-200" />
 
      
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-     
-          <label htmlFor='photo' className="flex items-center gap-2 hover:bg-gray-100 px-3 py-2 rounded-lg transition">
-            <FaRegImage className="text-[#45bd62]" size={20} />
-            <span className="font-semibold text-[#65676b] text-[15px]">Photo/video</span>
-          </label>
-          <input type="file" id='photo' ref={imageInput}  hidden onChange={handleChangeImage}/>
-          
-       
-          <button className="flex items-center gap-2 hover:bg-gray-100 px-3 py-2 rounded-lg transition">
-            <FaRegSmile className="text-[#f7b928]" size={20} />
-            <span className="font-semibold text-[#65676b] text-[15px]">Feeling/activity</span>
-          </button>
-        </div>
+    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+  <div className="flex items-center gap-2 mb-2 md:mb-0">
+    <label htmlFor='photo' className="flex items-center gap-2 hover:bg-gray-100 px-3 py-2 rounded-lg transition">
+      <FaRegImage className="text-[#45bd62]" size={20} />
+      <span className="font-semibold text-[#65676b] text-[15px]">Photo/video</span>
+    </label>
+    <input type="file" id='photo' ref={imageInput} hidden onChange={handleChangeImage}/>
+    
+    <button className="flex items-center gap-2 hover:bg-gray-100 px-3 py-2 rounded-lg transition">
+      <FaRegSmile className="text-[#f7b928]" size={20} />
+      <span className="font-semibold text-[#65676b] text-[15px]">Feeling/activity</span>
+    </button>
+  </div>
 
-        {/* زر النشر الأزرق */}
-        <button onClick={mutate} disabled={isPending} className="bg-[#1b74e4] hover:bg-[#1565c0] text-white px-8 py-2 rounded-lg font-bold flex items-center gap-2 transition">
-          <span className="text-[16px]">Post</span>
-          <IoSend size={16} className="-rotate-12" />
-        </button>
-      </div>
+  {/* زر النشر الأزرق */}
+  <button
+    onClick={mutate}
+    disabled={isPending}
+    className="bg-[#1b74e4] hover:bg-[#1565c0] text-white px-4 sm:px-6 py-2 rounded-lg font-bold flex items-center justify-center gap-2 transition w-full md:w-auto"
+  >
+    <span className="text-[16px]">Post</span>
+    <IoSend size={16} className="-rotate-12" />
+  </button>
+</div>
     </div>
   
   </>

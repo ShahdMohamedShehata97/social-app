@@ -39,7 +39,7 @@ function handleImageChange(e) {
   const changedImage = useRef();
   console.log("changedImage.current", changedImage);
 
- function handleCreatePOst() {
+ function handleProfileChange() {
 
   const postObj = new FormData();
 
@@ -60,7 +60,7 @@ function handleImageChange(e) {
   const queryClient=useQueryClient()
 
   const {mutate,isPending}=useMutation({
-    mutationFn:handleCreatePOst,
+    mutationFn:handleProfileChange,
     onSuccess:()=>{
        queryClient.invalidateQueries({ queryKey: ['getProfile']})
       setShowModal(false)
@@ -104,14 +104,14 @@ function handleImageChange(e) {
 
   return (
     <div className="bg-[#f8f9fb] min-h-screen font-sans">
-      <div className="h-75 bg-linear-to-r from-[#0f172a] via-[#1e293b] to-[#7fa1c3] relative w-[85%] mx-auto">
+      <div className="h-75 bg-linear-to-r from-[#0f172a] via-[#1e293b] to-[#7fa1c3] relative w-full md:w-[85%]  mx-auto">
         <button className="absolute right-10 top-8 bg-[#00000050] hover:bg-[#00000080] text-white px-4 py-1.5 rounded-lg flex items-center gap-2 text-xs font-semibold backdrop-blur-sm transition-all">
           <FaCamera className="text-sm" />
           Add cover
         </button>
       </div>
 
-      <div className="w-[83%] mx-auto px-6">
+      <div className="w-full  md:w-[83%] mx-auto px-6">
         <div className="bg-white rounded-[40px] shadow-sm -mt-32 relative z-10 p-10">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
             <div className="flex gap-6 items-center">
@@ -191,7 +191,7 @@ function handleImageChange(e) {
                 </div>
               </div>
               <div>
-                <h1 className="text-[32px] font-extrabold text-[#1a202c] leading-tight">
+                <h1 className="text-2xl md:text-[32px] font-extrabold text-[#1a202c] leading-tight">
                   {name}
                 </h1>
                 <p></p>
@@ -263,7 +263,7 @@ function handleImageChange(e) {
         </div>
       </div>
 
-      <div className="w-[83%] mx-auto px-6 flex flex-col gap-5 mt-16">
+      <div className="w-full md:w-[83%] mx-auto px-6 flex flex-col gap-5 mt-16">
         {profilePosts?.map((post) => {
           return (
             <PostCard key={post.id} postInfo={post} queryKey={["getposts"]} />

@@ -52,7 +52,7 @@ import { FiMessageCircle } from "react-icons/fi";
 import { IoSettingsOutline } from "react-icons/io5";
 import { IoIosMenu } from "react-icons/io";
 import { authContext } from "../../context/AuthContext";
-import { useContext } from "react";
+import { useContext ,useState} from "react";
 
 // export const AcmeLogo = () => {
 //   return (
@@ -73,6 +73,7 @@ export default function MyNavbar() {
 // const userInfo = JSON.parse(localStorage.getItem('user'))
 
 //   // console.log('userInfo',userInfo)
+const [active, setActive] = useState("feed");
 
 const {clearUserToken,userData}=useContext(authContext)
 const navigate=useNavigate()
@@ -85,9 +86,9 @@ function handleLogout(){
 
 }
 
-  function handleProfile(){
- 
-  navigate('/profile')
+function handleProfile() {
+  setActive('profile'); // عشان Navbar يظهر الـ Profile نشط
+  navigate('/profile');
 }
 
   return (
@@ -104,19 +105,30 @@ function handleLogout(){
 
       <NavbarContent className="flex gap-5 bg-[#f4f2f4] h-fit py-2.5 px-3 rounded-2xl" justify="center">
         <NavbarItem>
-          <Link color="foreground" to="/home" className=' gap-1 flex items-center text-gray-500  hover:text-black duration-200 focus:text-[#1f6fe5]'>
+          <Link 
+          onClick={()=>setActive('feed')}
+           color="foreground" to="/home" className={`gap-1 flex items-center ${active ==='feed' ? 'text-[#1f6fe5]':'text-gray-500   hover:text-black duration-200 focus:text-[#1f6fe5]'}`}>
           <AiOutlineHome size={20} />
             <p className='text-[14px] font-extrabold hidden md:block ' >Feed</p>
           </Link>
+
+
+
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" to='/profile' className=' gap-1 flex items-center  text-gray-500 hover:text-black duration-200 focus:text-[#1f6fe5]'>
+
+          <Link 
+          onClick={()=>setActive('profile')}
+          
+          color="foreground" to='/profile'  className={`gap-1 flex items-center ${active ==='profile' ? 'text-[#1f6fe5]':'text-gray-500   hover:text-black duration-200 focus:text-[#1f6fe5]'}`}>
            <FiUser size={18} />
             <p className='text-[14px] font-extrabold hidden md:block'>Profile</p>
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#" className=' gap-1 flex items-center  text-gray-500 hover:text-black duration-200 focus:text-[#1f6fe5]'>
+          <Link
+          onClick={()=>setActive('noti')}
+          color="foreground" to={'/notification'} className={`gap-1 flex items-center ${active ==='noti' ? 'text-[#1f6fe5]':'text-gray-500   hover:text-black duration-200 focus:text-[#1f6fe5]'}`}>
         <FiMessageCircle size={18} />
           <p className='text-[14px] font-extrabold hidden md:block'>  Notification</p>
           </Link>

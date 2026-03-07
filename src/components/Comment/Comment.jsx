@@ -85,7 +85,7 @@ export default function Comment({id}) {
   })
 
   if (isLoading) {
-    return <div className='flex justify-center items-center bg-[#F7F8FA] '>
+    return <div className='flex justify-center items-center bg-[#F7F8FA] w-full py-2 rounded-sm '>
       <p className='text-[14px] font-extrabold text-center'>Loading Comments</p>
     </div>
   }
