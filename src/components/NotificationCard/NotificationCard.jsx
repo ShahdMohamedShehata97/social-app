@@ -3,9 +3,34 @@ import { GoCheck } from "react-icons/go";
 import { FaRegComment } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { BiRepost } from "react-icons/bi";
+import { useMutation } from '@tanstack/react-query';
+import { useState } from 'react';
+import axios from 'axios';
+
 export default function NotificationCard({notification}) {
     const {isRead,actor,_id,type}=notification
     const {name,photo}=actor
+      
+
+    const [markRead, setmarkRead] = useState(false)
+
+        function markNotificationAsRead() {
+    return axios.patch(`https://route-posts.routemisr.com/notifications/${_id}/read`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("tkn")}`,
+      },
+    });
+  }
+
+  const {mutate}=useMutation({
+    mutationFn:markNotificationAsRead,
+    onSuccess:()=>{
+
+    }
+  })
+
+
+
   return (
     <div> <div className=" p-3 mt-3 rounded-xl bg-blue-50">
           <div className="flex items-center gap-3">
@@ -24,8 +49,13 @@ export default function NotificationCard({notification}) {
                 {type ==="share_post" && <div className='w-8 h-8 bg-white flex justify-center items-center rounded-full'>
                     <BiRepost size={18} color='green'/></div>}
             </div>
-            <button className="px-2 py-1 text-[12px] font-bold text-[#1877f2] bg-white rounded hover:bg-[#E7F3FF] flex items-center gap-1">
-              <GoCheck /> Mark as read
+            <button
+            onClick={()=>{
+                mutate
+                setmarkRead(true)
+            }} 
+             className={markRead ? "px-2 py-1 text-[12px] font-bold text-[#096] bg-white rounded  flex items-center gap-1" : "px-2 py-1 text-[12px] font-bold text-[#1877f2] bg-white rounded hover:bg-[#E7F3FF] flex items-center gap-1"}>
+              <GoCheck  /> {markRead ? 'Read' : 'Mark as read'}
             </button>
             {/* <span className="text-xs text-gray-500">29m</span> */}
           </div>
