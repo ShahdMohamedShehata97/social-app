@@ -61,7 +61,7 @@ export default function Home() {
   });
 
 
-  
+
 
 
   function getAllPosts() {
@@ -208,7 +208,7 @@ export default function Home() {
     
     <div className="order-2 md:order-3 md:col-span-3 self-start sticky top-20 bg-white rounded-2xl shadow h-fit px-2 pb-3">
       {allSuggestions.map((sugg) => (
-        <FollowSuggestions key={sugg.id} suggestionFollower={sugg} />
+        <FollowSuggestions key={sugg.id} suggestionFollower={sugg} sugKey={["suggestions"]} />
       ))}
     </div>
 

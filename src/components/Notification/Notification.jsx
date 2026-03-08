@@ -57,7 +57,7 @@ function markAllNotificationAsRead() {
     mutationFn:markAllNotificationAsRead,
     onSuccess:()=>{
 
-        // queryClient.invalidateQueries({queryKey:["Unnotifications"]})
+        queryClient.invalidateQueries({queryKey:["Unnotifications"]})
 
     }
   })

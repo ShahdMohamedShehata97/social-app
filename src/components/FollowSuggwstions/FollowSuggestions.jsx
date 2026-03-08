@@ -2,14 +2,41 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react'
 import { CgUserAdd } from "react-icons/cg";
 import { Link } from 'react-router-dom';
+import { useQueryClient,useMutation } from '@tanstack/react-query';
+import axios from 'axios';
 
-export default function FollowSuggestions({suggestionFollower}) {
+export default function FollowSuggestions({suggestionFollower,sugKey}) {
+
+    // console.log('following',suggestionFollower)
     const {username,photo,name,mutualFollowersCount,followersCount,_id}=suggestionFollower
+
+
+      function handleFollow(){
+
+   
+
+
+    return axios.put(`https://route-posts.routemisr.com/users/${_id}/follow`,{},{   headers:{
+      "Authorization": `Bearer ${localStorage.getItem('tkn')}`,
+    }})
+  }
+
+  const queryClient=useQueryClient()
+
+  const {mutate,isPending,data}=useMutation({
+    mutationFn:handleFollow,
+    onSuccess:()=>{
+      queryClient.invalidateQueries({queryKey:sugKey})
+    
+
+    }
+  })
+
 
  
 
 
-
+   console.log('followData',data)
 
   return (
     <>
@@ -26,7 +53,7 @@ export default function FollowSuggestions({suggestionFollower}) {
                  </div>
             </Link>
 
-            <div  className='flex gap-2 bg-[#EDF4FF] w-fit justify-center items-center h-fit px-2 py-1 rounded-xl'>
+            <div onClick={mutate}  className='cursor-pointer flex gap-2 bg-[#EDF4FF] w-fit justify-center items-center h-fit px-2 py-1 rounded-xl'>
                <CgUserAdd color='#1877f2'/>
                 <p className='text-[12px] font-bold text-[#1877f2]'>Follow</p>
             </div>

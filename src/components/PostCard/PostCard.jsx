@@ -12,7 +12,7 @@ import { MdEdit } from "react-icons/md";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@heroui/react";
 import { authContext } from "../../context/AuthContext";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient,useQuery} from "@tanstack/react-query";
 import axios from "axios";
 import EditPost from "../EditPost/EditPost";
 
@@ -34,6 +34,7 @@ export default function PostCard({postInfo,queryKey}) {
   const commentCreatorUsernam = commentCreator?.username;
   const [showComments, setShowComments] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [openLikes, setOpenLikes] = useState(false)
 
   const {userId}=useContext(authContext)
   const [openShare, setOpenShare] = useState(false);
@@ -103,7 +104,20 @@ const isLiked = postInfo.likes?.includes(userId)
    }
   })
 
+function getPostLikes(){
+  return axios.get(`https://route-posts.routemisr.com/posts/${id}/likes`,{
+    headers:{
+      Authorization:`Bearer ${localStorage.getItem("tkn")}`
+    }
+  })
+}
 
+
+const {data:likesUsers}=useQuery({
+  queryKey:["postLikes",id],
+  queryFn:getPostLikes,
+  enabled:openLikes
+})
 
  
 
@@ -305,7 +319,52 @@ const isLiked = postInfo.likes?.includes(userId)
       <div className="w-5 h-5 rounded-full bg-[#1877F2] flex justify-center items-center">
         <AiOutlineLike color="white" />
       </div>
-      <p className="text-[14px] font-semibold text-[#62748e]">{likesCount} likes</p>
+      
+      <p 
+onClick={()=>{
+  if(likesCount > 0){
+    setOpenLikes(true)
+  }
+}}
+className={`text-[14px] font-semibold ${
+  likesCount > 0 ? "text-[#62748e] cursor-pointer hover:underline" : "text-gray-400 cursor-default"
+}`}
+>
+{likesCount} likes
+</p>
+
+
+
+{openLikes && (
+<div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+
+<div className="bg-white w-[40%] max-h-125 overflow-y-auto rounded-xl p-4">
+
+<div className="flex justify-between items-center mb-4">
+<h2 className="font-bold text-lg">People who reacted</h2>
+<button onClick={()=>setOpenLikes(false)}>✕</button>
+</div>
+
+{likesUsers?.data?.data?.likes?.map((user)=>(
+<div key={user._id} className="flex items-center gap-3 py-2">
+
+<img
+src={user.photo}
+className="w-10 h-10 rounded-full"
+/>
+
+<div>
+<p className="font-semibold">{user.name}</p>
+<p className="text-gray-500 text-sm">@{user.username}</p>
+</div>
+
+</div>
+))}
+
+</div>
+
+</div>
+)}
     </div>
 
     <div className="flex gap-2.5 items-center">
@@ -390,7 +449,7 @@ const isLiked = postInfo.likes?.includes(userId)
 
         <img
           src={postInfo.image}
-          className="rounded-xl mt-3"
+          className="rounded-xl mt-3 h-85 w-full"
         />
       </div>
 
