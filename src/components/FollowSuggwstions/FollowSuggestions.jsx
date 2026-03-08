@@ -4,13 +4,14 @@ import { CgUserAdd } from "react-icons/cg";
 import { Link } from 'react-router-dom';
 import { useQueryClient,useMutation } from '@tanstack/react-query';
 import axios from 'axios';
+import { QueryClient } from './../../../node_modules/@tanstack/query-core/src/queryClient';
 
 export default function FollowSuggestions({suggestionFollower,sugKey}) {
 
     // console.log('following',suggestionFollower)
     const {username,photo,name,mutualFollowersCount,followersCount,_id}=suggestionFollower
 
-
+   const QueryClient=useQueryClient()
       function handleFollow(){
 
    

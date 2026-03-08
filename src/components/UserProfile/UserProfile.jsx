@@ -1,17 +1,24 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 // import { da } from 'zod/v4/locales';
-import { useQuery } from '@tanstack/react-query'
+import { useQuery,useQueryClient,useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import Loader from '../loader/Loader'
 import { CgUserAdd } from "react-icons/cg";
 import PostCard from '../PostCard/PostCard';
 import { Link } from 'react-router-dom';
 import { GoArrowLeft } from "react-icons/go";
+import { useState } from 'react'
+
 
 export default function UserProfile() {
+
+
+
+
+
     const {id}=useParams()
-    console.log('id',id)
+    // console.log('id',id)
        function getUserProfile(){
            return axios.get(`https://route-posts.routemisr.com/users/${id}/profile`, {
       headers: {
@@ -41,7 +48,26 @@ export default function UserProfile() {
     queryFn: getAllPosts,
   });
 
-    
+
+
+
+
+      function handleFollow(){
+    return axios.put(`https://route-posts.routemisr.com/users/${id}/follow`,{},{   headers:{
+      "Authorization": `Bearer ${localStorage.getItem('tkn')}`,
+    }})
+  }
+
+  const queryClient=useQueryClient()
+
+  const {mutate,isPending}=useMutation({
+    mutationFn:handleFollow,
+onSuccess:()=>{
+  queryClient.invalidateQueries({queryKey:["userProfile"]})
+}
+  })
+
+    console
  
     if(isLoading)
     {
@@ -57,10 +83,11 @@ export default function UserProfile() {
     const profilePosts = userPosts?.data?.data?.posts ||[];
     
     console.log('userProfile',user)
-    console.log('user profilPots',profilePosts)
-    console.log('postsNumber',profilePosts.length)
+    // console.log('user profilPots',profilePosts)
+    // console.log('postsNumber',profilePosts.length)
 
-    
+    console.log('isFollowing',data.data.data.isFollowing)
+    const isFollowing=data.data.data.isFollowing
 
 
   return (
@@ -98,10 +125,13 @@ export default function UserProfile() {
                         
                       </div>
 
-                      <div  className='flex gap-2 bg-[#1877f2] w-fit justify-center items-center h-fit px-3 py-2 rounded-xl'>
+                     {isFollowing ? <div onClick={mutate}   className='cursor-pointer flex gap-2 bg-[#1877f2] w-fit justify-center items-center h-fit px-3 py-2 rounded-xl'>
+                                   
+                                    <p className='text-[14px] font-semibold text-white'>Following</p>
+                     </div>: <div onClick={mutate}   className='cursor-pointer flex gap-2 bg-[#1877f2] w-fit justify-center items-center h-fit px-3 py-2 rounded-xl'>
                                    <CgUserAdd color='white' size={18}/>
                                     <p className='text-[14px] font-semibold text-white'>Follow</p>
-                     </div>
+                     </div>}
           
                   
                     </div>

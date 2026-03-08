@@ -7,6 +7,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import axios from 'axios';
 import { QueryClient } from './../../../node_modules/@tanstack/query-core/src/queryClient';
+import { CgUserAdd } from "react-icons/cg";
 
 export default function NotificationCard({notification,queryKey}) {
     const {isRead,actor,_id,type}=notification
@@ -56,6 +57,8 @@ export default function NotificationCard({notification,queryKey}) {
                     <CiHeart size={18} color='#FF2056'/></div>}
                 {type ==="share_post" && <div className='w-8 h-8 bg-white flex justify-center items-center rounded-full'>
                     <BiRepost size={18} color='green'/></div>}
+                {type ==="follow_user" && <div className='w-8 h-8 bg-white flex justify-center items-center rounded-full'>
+                    <CgUserAdd size={18} color='#7F22FE' /></div>}
             </div>
             <button
             onClick={()=>{

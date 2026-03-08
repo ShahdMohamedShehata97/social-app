@@ -57,7 +57,7 @@ function markAllNotificationAsRead() {
     mutationFn:markAllNotificationAsRead,
     onSuccess:()=>{
 
-        queryClient.invalidateQueries({queryKey:["Unnotifications"]})
+        queryClient.invalidateQueries({queryKey:["notifications"]})
 
     }
   })
@@ -82,8 +82,8 @@ function markAllNotificationAsRead() {
   const allNotifications=data.data.data.notifications
 
   console.log('allNotification',allNotifications)
-   const unReadNotifi=unreadCount?.data?.data?.notifications ||[]
-   console.log('unread',unReadNotifi)
+   const unReadCount = unreadCount?.data?.data?.count || 0
+   
 
 
   return (
@@ -110,7 +110,7 @@ function markAllNotificationAsRead() {
         <button className="px-3 py-1 bg-blue-500 text-white rounded-full text-sm">All</button>
         <button className="px-3 py-1  items-center rounded-full text-sm flex gap-2 bg-[#E2E8F0] hover:bg-[]">
          <p className='text-[#314158] text-[14px] font-bold '>Unread</p>
-         <p className='text-[#1877f2] text-[12px] font-bold '>{unReadNotifi.length}</p>
+         <p className='text-[#1877f2] text-[12px] font-bold '>{unReadCount}</p>
         </button>
       </div>
 
