@@ -77,7 +77,7 @@ function handleLogout(){
 }
 
 function handleProfile() {
-  setActive('profile'); // عشان Navbar يظهر الـ Profile نشط
+  // setActive('profile'); // عشان Navbar يظهر الـ Profile نشط
   navigate('/profile');
 }
 
