@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Login from "../Login/Login";
 import axios from "axios";
 import PostCard from "../PostCard/PostCard";
@@ -11,41 +11,24 @@ import { LuSparkles } from "react-icons/lu";
 import { LuEarth } from "react-icons/lu";
 // import { CiBookmark } from "react-icons/ci";
 import { FaRegBookmark } from "react-icons/fa"
+import { authContext } from "../../context/AuthContext";
+
 
 export default function Home() {
-  //   const [allPosts, setallPosts] = useState(null)
-  //   const [isLoading, setisLoading] = useState(false)
-  //   const [isError, setisError] = useState(null)
-
-  // function getAllposts(){
-
-  //   setisLoading(true)
-
-  // axios.get('https://route-posts.routemisr.com/posts',{
-  //   headers:{
-  //     "Authorization": `Bearer ${localStorage.getItem('tkn')}`,
-  //   }
-  // })
-  //   .then(function(resp){
-  //     // console.log('resp',resp)
-  //     // console.log('resp',resp.data)
-  //     console.log('posts',resp.data.data.posts)
-  //     setallPosts(resp.data.data.posts)
-  //   })
-  //   .catch(function(error){
-  //     console.log('error',error)
-  //     setisError(error.response.data.message)
-  //   })
-  //   .finally(()=>{
-  //     setisLoading(false)
-  //   })
-  // }
-
-  // useEffect(function(){
-  //   getAllposts()
-  // },[])
+  
 
   const [active, setActive] = useState("feed");
+
+    const [getSpesificPosts, setgetSpesificPosts] = useState('all')
+
+    const {userId}=useContext(authContext)
+
+
+
+
+
+
+
 
  function getSuggestionUsers() {
     return axios.get("https://route-posts.routemisr.com/users/suggestions?limit=10", {
@@ -77,6 +60,52 @@ export default function Home() {
     queryFn: getAllPosts,
   });
 
+   
+    function getSavedPosts() {
+    return axios.get("https://route-posts.routemisr.com/users/bookmarks", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("tkn")}`,
+      },
+    });
+  }
+
+  const { data:savedPosts } = useQuery({
+    queryKey: ["Savedposts"],
+    queryFn: getSavedPosts,
+  });
+
+
+
+  function getMyPosts() {
+      return axios.get(`https://route-posts.routemisr.com/users/${userId}/posts`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("tkn")}`,
+        },
+      });
+    }
+  
+    const { data:myPosts} = useQuery({
+      queryKey: ["getMyposts"],
+      queryFn: getMyPosts,
+    });
+
+
+     function getCommunityPosts() {
+      return axios.get(`https://route-posts.routemisr.com/posts/feed?only=following&limit=10`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("tkn")}`,
+        },
+      });
+    }
+  
+    const { data:myCommunityPosts} = useQuery({
+      queryKey: ["getMyCommunityposts"],
+      queryFn: getCommunityPosts,
+    });
+
+
+
+
   if (isLoading) {
     return <Loader />;
   }
@@ -92,65 +121,22 @@ export default function Home() {
 
 
   const allPosts = data.data.data.posts;
-  // console.log("posts", allPosts);
+
+  const MyprofilePosts = myPosts?.data?.data?.posts;
+
   const allSuggestions=suggestions?.data?.data?.suggestions ||[]
 
-  // console.log('sugg',allSuggestions)
+  const allSavedPosts=savedPosts?.data?.data?.bookmarks ||[];
+  const allCommunityPosts=myCommunityPosts?.data?.data?.posts ||[];
 
 
 
   return (
     <>
-      {/* <div className="min-h-screen p-6">
-       
-        <div className="max-w-7xl mx-auto grid md:grid-cols-12 gap-6">
-          
-          <div className="md:col-span-3 order-1 bg-white rounded-2xl shadow h-125"></div>
-          <div className=" md:col-span-6 md:order-2 order-3 rounded-2xl min-h-screen flex flex-col gap-5 ">
-           
-            <PostCreation queryKey={["getposts"]} />{" "}
-            {allPosts?.map((post) => {
-              return (
-                <PostCard
-                  key={post.id}
-                  postInfo={post}
-                  queryKey={["getposts"]}
-                />
-              );
-            })}
-          </div>
-          <div className="md:col-span-3 md:order-3 order-2 bg-white rounded-2xl shadow h-125"></div>{" "}
-        </div>
-      </div> */}
+     
 
 
-
-      {/* <div className="min-h-screen p-6">
-  <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
-    
-  
-    <div className="order-1 md:order-1 md:col-span-3 bg-white rounded-2xl shadow h-31.25 md:h-auto"></div>
-    
- 
-    <div className="order-3 md:order-2 md:col-span-6 rounded-2xl min-h-screen flex flex-col gap-5">
-      <PostCreation queryKey={["getposts"]} />
-      {allPosts?.map((post) => (
-        <PostCard key={post.id} postInfo={post} queryKey={["getposts"]} />
-      ))}
-    </div>
-    
-  
-    <div className="order-2 md:order-3 md:col-span-3 bg-white rounded-2xl shadow h-fit px-2 pb-3 sticky top-0 mt-1">
-      {allSuggestions.map((sugg)=>{
-        return <FollowSuggestions suggestionFollower={sugg}/>
-      })}
-    </div>
-    
-  </div>
-</div> */}
-
-
-<div className="min-h-screen p-6">
+{/* <div className="min-h-screen p-6">
   <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
     
 
@@ -213,7 +199,106 @@ export default function Home() {
     </div>
 
   </div>
+</div> */}
+
+
+
+
+
+
+                        <div className="min-h-screen p-6">
+  <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
+    
+
+    <div className="order-1 md:order-1 md:col-span-3 flex flex-col px-4 self-start md:sticky md:top-20 bg-white rounded-2xl shadow h-fit pb-4">
+
+  <button
+    onClick={() => {
+      setActive("feed")
+      setgetSpesificPosts('all')
+    }
+
+    }
+    className={`flex py-2 items-center gap-3 mt-4 rounded-2xl px-4 border-none
+    ${active === "feed" ? "bg-blue-100 text-blue-600" : "hover:bg-[#F1F5F9]"}`}
+  >
+    <LuNewspaper size={18} />
+    <p className="font-bold text-[14px]">Feed</p>
+  </button>
+
+  <button
+    onClick={() => {setActive("myposts")
+      setgetSpesificPosts('myPosts')
+    }}
+    className={`flex py-2 items-center gap-3 mt-2 rounded-2xl px-4 boder-none
+    ${active === "myposts" ? "bg-blue-100 text-blue-600" : "hover:bg-[#F1F5F9]"}`}
+  >
+    <LuSparkles size={18} />
+    <p className="font-bold text-[14px]">My Posts</p>
+  </button>
+
+  <button
+    onClick={() => {
+      setActive("community")
+      setgetSpesificPosts('community')
+    }}
+    className={`flex py-2 items-center gap-3 mt-2 rounded-2xl px-4 border-none
+    ${active === "community" ? "bg-blue-100 text-blue-600" : "hover:bg-[#F1F5F9]"}`}
+  >
+    <LuEarth size={18} />
+    <p className="font-bold text-[14px]">Community</p>
+  </button>
+
+  <button
+    onClick={() => {
+      setActive("saved")
+      setgetSpesificPosts('saved')
+    }
+     
+    }
+    className={`flex py-2 items-center gap-3 mt-2 rounded-2xl px-4 border-none
+    ${active === "saved" ? "bg-blue-100 text-blue-600" : "hover:bg-[#F1F5F9]"}`}
+  >
+    <FaRegBookmark size={18} />
+    <p className="font-bold text-[14px]">Saved</p>
+  </button>
+
 </div>
+
+    <div className="order-3 md:order-2 md:col-span-6 rounded-2xl min-h-screen flex flex-col gap-5">
+
+      <PostCreation queryKey={["getposts"]} />
+      {getSpesificPosts === 'all' &&  allPosts?.map((post) => (
+        <PostCard key={post.id} postInfo={post} queryKey={["getposts"]} />
+      ))}
+      {getSpesificPosts === 'saved' &&  allSavedPosts?.map((post) => (
+        <PostCard key={post.id} postInfo={post} queryKey={["Savedposts"]} />
+      ))}
+      {getSpesificPosts === 'myPosts' &&  MyprofilePosts?.map((post) => (
+        <PostCard key={post.id} postInfo={post} queryKey={["myPosts"]} />
+      ))}
+      {getSpesificPosts === 'community' &&  allCommunityPosts?.map((post) => (
+        <PostCard key={post.id} postInfo={post} queryKey={["getMyCommunityposts"]} />
+      ))}
+
+
+
+
+    </div>
+
+    
+    <div className="order-2 md:order-3 md:col-span-3 self-start md:sticky md:top-20 bg-white rounded-2xl shadow h-fit px-2 pb-3">
+      {allSuggestions.map((sugg) => (
+        <FollowSuggestions key={sugg.id} suggestionFollower={sugg} sugKey={["suggestions"]} />
+      ))}
+    </div>
+
+  </div>
+</div>
+
+
+
+
 
 
 

@@ -89,7 +89,7 @@ function markAllNotificationAsRead() {
   return (
     <div>   
         
-         <div className="w-[80%] mx-auto mt-6 p-4 bg-white rounded-xl shadow">
+         <div className=" w-[90%] md:w-[80%] mx-auto mt-6 p-4 bg-white rounded-xl shadow">
       
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
