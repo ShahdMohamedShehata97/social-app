@@ -270,14 +270,23 @@ export default function PostCard({ postInfo, queryKey }) {
 
         {isShare && sharedPost && (
           <div className="border border-gray-300 rounded-xl p-3 mt-3 bg-gray-50">
-            <div className="flex gap-2 items-center mb-2">
+           {userId ===sharedPost.user._id ? <Link to={`/profile`} className="flex gap-2 items-center mb-2">
               <img
                 src={sharedPost.user.photo}
                 alt={sharedPost.user.name}
                 className="w-8 h-8 rounded-full"
               />
               <p className="font-semibold">{sharedPost.user.name}</p>
-            </div>
+            </Link>
+            : 
+            <Link to={`/usrprofile/${sharedPost.user._id}`} className="flex gap-2 items-center mb-2">
+              <img
+                src={sharedPost.user.photo}
+                alt={sharedPost.user.name}
+                className="w-8 h-8 rounded-full"
+              />
+              <p className="font-semibold">{sharedPost.user.name}</p>
+            </Link>}
             <p className="text-gray-700">{sharedPost.body}</p>
             {sharedPost.image && (
               <img
