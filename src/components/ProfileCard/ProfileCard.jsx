@@ -442,7 +442,7 @@ function handleImageChange(e) {
         {/* Posts Stats */}
         <div className="flex flex-col gap-4 md:gap-6">
 
-          <div className="border border-gray-100 rounded-[24px] md:rounded-[28px] p-5 md:p-7 bg-[#fcfdfe]">
+          <div className="border border-gray-100 rounded-3xl md:rounded-[28px] p-5 md:p-7 bg-[#fcfdfe]">
             <p className="text-[#3b82f6] font-bold text-xs tracking-widest mb-2">
               MY POSTS
             </p>
@@ -452,7 +452,7 @@ function handleImageChange(e) {
             </p>
           </div>
 
-          <div className="border border-gray-100 rounded-[24px] md:rounded-[28px] p-5 md:p-7 bg-[#fcfdfe]">
+          <div className="border border-gray-100 rounded-3xl md:rounded-[28px] p-5 md:p-7 bg-[#fcfdfe]">
             <p className="text-[#3b82f6] font-bold text-xs tracking-widest mb-2">
               SAVED POSTS
             </p>

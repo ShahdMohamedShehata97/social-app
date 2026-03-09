@@ -1,13 +1,16 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaRegSmile } from "react-icons/fa";
 import { FaRegImage } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
+import { authContext } from "../../context/AuthContext";
 export default function CommentCreation({id,queryKey}) {
 
-const userInfo = JSON.parse(localStorage.getItem('user'))
+// const userInfo = JSON.parse(localStorage.getItem('user'))
+
+const {userData}=useContext(authContext)
 const [commentValue, setcommentValue] = useState(null)
     
     
@@ -47,7 +50,7 @@ const [commentValue, setcommentValue] = useState(null)
   <div className="flex items-start gap-3">
     {/* Profile Image */}
     <img
-      src={userInfo.photo} 
+      src={userData.photo} 
       alt="profile"
       className="w-10 h-10 rounded-full object-cover"
     />
