@@ -17,6 +17,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import PostDetails from "./components/PostDetails/PostDetails";
 import UserProfile from "./components/UserProfile/UserProfile";
 import Notification from "./components/Notification/Notification";
+import ChangePassord from "./components/CgangePassword/ChangePassord";
 
 
 const router=createBrowserRouter([{
@@ -28,6 +29,7 @@ const router=createBrowserRouter([{
   {path:'profile',element:<ProtectedRoutes><Profile/></ProtectedRoutes>},
   {path:'notification',element:<ProtectedRoutes><Notification/></ProtectedRoutes>},
   {path:'usrprofile/:id',element:<ProtectedRoutes><UserProfile/></ProtectedRoutes>},
+  {path:'changepassword',element:<ProtectedRoutes><ChangePassord/></ProtectedRoutes>},
   {path:'postdetails/:id',element:<ProtectedRoutes><PostDetails/></ProtectedRoutes>},
   // {path:'register',element:<Register/>},
   // {path:'login',element:<Login/>},

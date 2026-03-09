@@ -57,7 +57,7 @@ const navigate=useNavigate()
     setAuthenticatedUser(resp.data.data.token)
     // localStorage.setItem('tkn',resp.data.data.token)
     localStorage.setItem('tkn',resp.data.data.token)
-     localStorage.setItem('user', JSON.stringify(resp.data.data.user))
+    //  localStorage.setItem('user', JSON.stringify(resp.data.data.user))
     setsuccessResp(true)
     setTimeout(()=>{
       setsuccessResp(false)

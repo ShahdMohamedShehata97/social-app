@@ -81,6 +81,10 @@ function handleProfile() {
   navigate('/profile');
 }
 
+function handlSettings(){
+  navigate('/changepassword')
+}
+
   return (
     <Navbar className='bg-white w-full'>
       <NavbarBrand>
@@ -171,7 +175,7 @@ location.pathname === "/notification"
           </div>
         </DropdownItem>
 
-        <DropdownItem key="settings" className="">
+        <DropdownItem key="settings" className="" onClick={handlSettings}>
           <div className='flex gap-2'>
             <IoSettingsOutline size={18} />
             <p className='text-[14px] font-semibold'>Settings</p>
