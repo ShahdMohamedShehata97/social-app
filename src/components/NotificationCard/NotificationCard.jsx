@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { GoCheck } from "react-icons/go";
 import { FaRegComment } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
@@ -9,11 +9,14 @@ import axios from 'axios';
 import { QueryClient } from './../../../node_modules/@tanstack/query-core/src/queryClient';
 import { CgUserAdd } from "react-icons/cg";
 import { Link } from 'react-router-dom';
+import { authContext } from '../../context/AuthContext';
 
 export default function NotificationCard({notification,queryKey}) {
     const {isRead,actor,_id,type,entity}=notification
     const {_id:postid}=entity
-    const {name,photo}=actor
+    const {name,photo,_id:actorId}=actor
+
+    const {userId}=useContext(authContext)
       
 
 
@@ -47,7 +50,7 @@ export default function NotificationCard({notification,queryKey}) {
           <div className="flex items-center gap-3">
             <img src={photo} alt="Dai Morse" className="w-10 h-10 rounded-full" />
            <div className='flex gap-2 items-center'>
-            <p className='text-[16px] font-normal'>{name}</p>
+            {userId===actor ?<Link to={`/profile`}><p className='text-[16px] font-normal'>{name}</p></Link>: <Link to={`/usrprofile/${actorId}`}><p className='text-[16px] font-normal'>{name}</p></Link>}
             <Link to={`/postdetails/${postid}`}><p className='text-[14px] font-normal'>{type}</p></Link>
            </div>
           </div>

@@ -93,7 +93,7 @@ onSuccess:()=>{
   return (
 
 
-   <div>
+   <div className='mim-h-screen'>
 
     <div className='mt-5 md:w-[84.6%] w-[95%] mx-auto'>
      <Link className='' to={'/home'}>
