@@ -12,6 +12,7 @@ import { LuEarth } from "react-icons/lu";
 // import { CiBookmark } from "react-icons/ci";
 import { FaRegBookmark } from "react-icons/fa"
 import { authContext } from "../../context/AuthContext";
+import { length } from './../../../node_modules/stylis/src/Tokenizer';
 
 
 export default function Home() {
@@ -133,78 +134,6 @@ export default function Home() {
 
   return (
     <>
-     
-
-
-{/* <div className="min-h-screen p-6">
-  <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
-    
-
-    <div className="order-1 md:order-1 md:col-span-3 flex flex-col px-4 self-start sticky top-20 bg-white rounded-2xl shadow h-fit pb-4">
-
-  <button
-    onClick={() => setActive("feed")
-
-    }
-    className={`flex py-2 items-center gap-3 mt-4 rounded-2xl px-4 
-    ${active === "feed" ? "bg-blue-100 text-blue-600" : "hover:bg-[#F1F5F9]"}`}
-  >
-    <LuNewspaper size={18} />
-    <p className="font-bold text-[14px]">Feed</p>
-  </button>
-
-  <button
-    onClick={() => setActive("myposts")}
-    className={`flex py-2 items-center gap-3 mt-2 rounded-2xl px-4
-    ${active === "myposts" ? "bg-blue-100 text-blue-600" : "hover:bg-[#F1F5F9]"}`}
-  >
-    <LuSparkles size={18} />
-    <p className="font-bold text-[14px]">My Posts</p>
-  </button>
-
-  <button
-    onClick={() => setActive("community")}
-    className={`flex py-2 items-center gap-3 mt-2 rounded-2xl px-4
-    ${active === "community" ? "bg-blue-100 text-blue-600" : "hover:bg-[#F1F5F9]"}`}
-  >
-    <LuEarth size={18} />
-    <p className="font-bold text-[14px]">Community</p>
-  </button>
-
-  <button
-    onClick={() => setActive("saved")
-      
-    }
-    className={`flex py-2 items-center gap-3 mt-2 rounded-2xl px-4
-    ${active === "saved" ? "bg-blue-100 text-blue-600" : "hover:bg-[#F1F5F9]"}`}
-  >
-    <FaRegBookmark size={18} />
-    <p className="font-bold text-[14px]">Saved</p>
-  </button>
-
-</div>
-
-    <div className="order-3 md:order-2 md:col-span-6 rounded-2xl min-h-screen flex flex-col gap-5">
-      <PostCreation queryKey={["getposts"]} />
-      {allPosts?.map((post) => (
-        <PostCard key={post.id} postInfo={post} queryKey={["getposts"]} />
-      ))}
-    </div>
-
-    
-    <div className="order-2 md:order-3 md:col-span-3 self-start sticky top-20 bg-white rounded-2xl shadow h-fit px-2 pb-3">
-      {allSuggestions.map((sugg) => (
-        <FollowSuggestions key={sugg.id} suggestionFollower={sugg} sugKey={["suggestions"]} />
-      ))}
-    </div>
-
-  </div>
-</div> */}
-
-
-
-
-
 
                         <div className="min-h-screen p-6">
   <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
@@ -271,13 +200,23 @@ export default function Home() {
       {getSpesificPosts === 'all' &&  allPosts?.map((post) => (
         <PostCard key={post.id} postInfo={post} queryKey={["getposts"]} />
       ))}
-      {getSpesificPosts === 'saved' &&  allSavedPosts?.map((post) => (
+      {getSpesificPosts === 'saved' && allSavedPosts.length ===0 ?<div className="w-full md:w-full mx-auto px-6 flex  gap-5 mt-4 bg-white py-3.5 mb-16 rounded-2xl justify-center">
+                    <p className='text-[14px] text-[#62748e] font-normal'>No posts yet</p>
+                </div>:  allSavedPosts?.map((post) => (
         <PostCard key={post.id} postInfo={post} queryKey={["Savedposts"]} />
       ))}
-      {getSpesificPosts === 'myPosts' &&  MyprofilePosts?.map((post) => (
+      {getSpesificPosts === 'myPosts' &&  MyprofilePosts.length ===0 ?<div className="w-full md:w-full mx-auto px-6 flex  gap-5 mt-4 bg-white py-3.5 mb-16 rounded-2xl justify-center">
+                    <p className='text-[14px] text-[#62748e] font-normal'>No posts yet</p>
+                </div>: MyprofilePosts?.map((post) => (
         <PostCard key={post.id} postInfo={post} queryKey={["myPosts"]} />
       ))}
-      {getSpesificPosts === 'community' &&  allCommunityPosts?.map((post) => (
+
+
+
+
+      {getSpesificPosts === 'community' && allCommunityPosts.length===0 ?<div className="w-full md:w-full mx-auto px-6 flex  gap-5 mt-4 bg-white py-3.5 mb-16 rounded-2xl justify-center">
+                    <p className='text-[14px] text-[#62748e] font-normal'>No posts yet</p>
+                </div>:   allCommunityPosts?.map((post) => (
         <PostCard key={post.id} postInfo={post} queryKey={["getMyCommunityposts"]} />
       ))}
 

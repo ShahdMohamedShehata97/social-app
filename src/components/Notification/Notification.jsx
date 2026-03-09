@@ -4,6 +4,7 @@ import Loader from '../loader/Loader';
 import axios from 'axios';
 import NotificationCard from '../NotificationCard/NotificationCard';
 import { useQueryClient,useMutation } from '@tanstack/react-query';
+import { length } from './../../../node_modules/stylis/src/Tokenizer';
 
 export default function Notification() {
 
@@ -87,7 +88,7 @@ function markAllNotificationAsRead() {
 
 
   return (
-    <div>   
+    <div className='min-h-screen'>   
         
          <div className=" w-[90%] md:w-[80%] mx-auto mt-6 p-4 bg-white rounded-xl shadow">
       
@@ -115,9 +116,11 @@ function markAllNotificationAsRead() {
       </div>
 
       {/* Notifications list */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 mt-4">
         
-        {allNotifications.map((notifi)=>{return <NotificationCard notification={notifi} queryKey={["Unnotifications"]}/>})}
+        {allNotifications.length===0 ?<div className="w-full md:w-full mx-auto px-6 flex  gap-5 mt-4 bg-blue-50 py-3.5 mb-16 rounded-2xl justify-center">
+                    <p className='text-[14px] text-[#62748e] font-normal'>No Notifications</p>
+                </div>: allNotifications.map((notifi)=>{return <NotificationCard notification={notifi} queryKey={["Unnotifications"]}/>})}
 
       
 

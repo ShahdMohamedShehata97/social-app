@@ -8,9 +8,11 @@ import { useState } from 'react';
 import axios from 'axios';
 import { QueryClient } from './../../../node_modules/@tanstack/query-core/src/queryClient';
 import { CgUserAdd } from "react-icons/cg";
+import { Link } from 'react-router-dom';
 
 export default function NotificationCard({notification,queryKey}) {
-    const {isRead,actor,_id,type}=notification
+    const {isRead,actor,_id,type,entity}=notification
+    const {_id:postid}=entity
     const {name,photo}=actor
       
 
@@ -46,7 +48,7 @@ export default function NotificationCard({notification,queryKey}) {
             <img src={photo} alt="Dai Morse" className="w-10 h-10 rounded-full" />
            <div className='flex gap-2 items-center'>
             <p className='text-[16px] font-normal'>{name}</p>
-            <p className='text-[14px] font-normal'>{type}</p>
+            <Link to={`/postdetails/${postid}`}><p className='text-[14px] font-normal'>{type}</p></Link>
            </div>
           </div>
           <div className="flex items-center gap-2 mt-3">
