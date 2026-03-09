@@ -38,11 +38,13 @@ export default function PostDetails() {
   const post=data.data.data.post
 
   return (
-    <div className='mt-5 md:w-[50%] w-[95%] mx-auto'>
+ <div className='min-h-screen'>
+     <div className='mt-5 md:w-[50%] w-[95%] mx-auto'>
      <Link className='' to={'/home'}>
     <div className='flex items-center gap-2 bg-white w-fit px-4 py-2 rounded-lg mb-5'> <GoArrowLeft />
      Back</div></Link>
      <PostCard postInfo={post}/>
     </div>
+ </div>
   )
 }
