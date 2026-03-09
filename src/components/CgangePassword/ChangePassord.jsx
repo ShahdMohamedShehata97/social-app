@@ -71,8 +71,13 @@ function myHandleSubmit(values){
           },
         }
       ).then(function(resp){
-        clearUserToken()
-        navigate('auth')
+        // clearUserToken()
+        // navigate('auth')
+  
+        localStorage.setItem('tkn',resp.data.data.token)
+
+        setAuthenticatedUser(resp.data.data.token)
+        
       }).catch((err)=>{
         console.log(err)
       })
